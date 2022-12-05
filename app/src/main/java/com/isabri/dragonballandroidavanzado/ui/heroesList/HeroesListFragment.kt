@@ -53,9 +53,7 @@ class HeroesListFragment : Fragment() {
     private fun getHeroes(size: Int): List<Hero> {
         val heroes = mutableListOf<Hero>()
 
-        for (i in 0..size) {
-            heroes.add(Hero(UUID.randomUUID().toString(), "Hero $i"))
-        }
+
 
         return heroes
     }
