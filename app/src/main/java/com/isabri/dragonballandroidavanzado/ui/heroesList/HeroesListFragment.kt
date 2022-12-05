@@ -45,6 +45,7 @@ class HeroesListFragment : Fragment() {
             }
 
             heroesListViewModel.getHeroes()
+            heroesListViewModel.initDatabase(requireContext())
         }
     }
 
