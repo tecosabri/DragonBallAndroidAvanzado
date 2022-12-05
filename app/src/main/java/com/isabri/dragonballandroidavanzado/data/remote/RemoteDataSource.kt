@@ -4,6 +4,8 @@ import com.isabri.dragonballandroidavanzado.data.remote.request.HeroesRequest
 import com.isabri.dragonballandroidavanzado.domain.models.Hero
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
@@ -13,11 +15,22 @@ class RemoteDataSource {
     private var moshi = Moshi.Builder()
         .addLast(KotlinJsonAdapterFactory())
         .build()
+    private val httpLoggingInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
+    private val okHttpClient = OkHttpClient.Builder()
+        .authenticator { _, response ->
+            response.request.newBuilder().header("Authorization", "Bearer $token").build()
+        }
+        .addInterceptor(httpLoggingInterceptor)
+        .build()
     private var retrofit = Retrofit.Builder()
         .baseUrl("https://dragonball.keepcoding.education/")
+        .client(okHttpClient)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
     private var api: DragonBallAPI = retrofit.create(DragonBallAPI::class.java)
+
 
     suspend fun getHeroes(): List<Hero> {
         return api.getHeroes(HeroesRequest())
