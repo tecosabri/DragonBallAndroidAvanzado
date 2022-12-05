@@ -17,13 +17,11 @@ import com.isabri.dragonballandroidavanzado.ui.commons.HeroesListAdapter
 class HeroesListFragment : Fragment() {
 
     private var _binding: FragmentHeroesListBinding? = null
+    private val binding get() = _binding!!
+
     private val adapter = HeroesListAdapter()
     private val heroesListViewModel: HeroesListViewModel by activityViewModels()
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-    private val heroes = listOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
