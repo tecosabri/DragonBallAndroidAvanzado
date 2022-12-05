@@ -7,5 +7,5 @@ data class Hero(
     val name: String,
     val photo: String,
     val description: String,
-    val favorite: String
+    val favorite: Boolean
 )
