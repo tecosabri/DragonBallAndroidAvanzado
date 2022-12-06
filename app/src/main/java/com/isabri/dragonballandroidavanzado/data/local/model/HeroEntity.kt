@@ -1,4 +1,4 @@
-package com.isabri.dragonballandroidavanzado.data.local
+package com.isabri.dragonballandroidavanzado.data.local.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

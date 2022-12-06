@@ -4,13 +4,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.isabri.dragonballandroidavanzado.domain.models.Hero
+import com.isabri.dragonballandroidavanzado.data.local.model.HeroEntity
 
 @Dao
 interface HeroDAO {
     @Query("SELECT * FROM heroEntities")
-    fun getAllHeroes(): List<Hero>
+    fun getAllHeroes(): List<HeroEntity>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertAll(superHeroes: List<Hero>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(superHeroes: List<HeroEntity>)
 }

@@ -1,5 +1,6 @@
 package com.isabri.dragonballandroidavanzado.data.remote
 
+import com.isabri.dragonballandroidavanzado.data.remote.model.HeroRemote
 import com.isabri.dragonballandroidavanzado.data.remote.request.HeroesRequest
 import com.isabri.dragonballandroidavanzado.domain.models.Hero
 import com.squareup.moshi.Moshi
@@ -32,7 +33,7 @@ class RemoteDataSource {
     private var api: DragonBallAPI = retrofit.create(DragonBallAPI::class.java)
 
 
-    suspend fun getHeroes(): List<Hero> {
+    suspend fun getHeroes(): List<HeroRemote> {
         return api.getHeroes(HeroesRequest())
     }
 }
