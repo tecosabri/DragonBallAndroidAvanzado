@@ -44,8 +44,8 @@ class HeroesListFragment : Fragment() {
                 adapter.submitList(it)
             }
 
-            heroesListViewModel.getHeroes()
             heroesListViewModel.initDatabase(requireContext())
+            heroesListViewModel.getHeroes()
         }
     }
 

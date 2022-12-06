@@ -13,7 +13,17 @@ class Repository {
     private val mapper = Mappers()
 
     suspend fun getHeroes(): List<Hero> {
-        return mapper.map(remoteDataSource.getHeroes())
+        return mapper.mapRemoteToHeroesList(remoteDataSource.getHeroes())
+    }
+
+    suspend fun getHeroesToCache(): List<Hero> {
+        var localHeroes = localDataSource.getHeroes()
+        if(localHeroes.isEmpty()) {
+            val remoteHeroes = remoteDataSource.getHeroes()
+            localHeroes = mapper.mapRemoteToEntityHeroesList(remoteHeroes)
+            localDataSource.insertHeroes(localHeroes)
+        }
+        return mapper.mapEntityToHeroesList(localDataSource.getHeroes())
     }
 
     fun initDatabase(context: Context) {
