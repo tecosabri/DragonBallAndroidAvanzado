@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.isabri.dragonballandroidavanzado.databinding.FragmentHeroesListBinding
 import com.isabri.dragonballandroidavanzado.domain.models.Hero
 import com.isabri.dragonballandroidavanzado.ui.commons.HeroesListAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
+@AndroidEntryPoint
 class HeroesListFragment : Fragment() {
 
     private var _binding: FragmentHeroesListBinding? = null
@@ -44,7 +46,6 @@ class HeroesListFragment : Fragment() {
                 adapter.submitList(it)
             }
 
-            heroesListViewModel.initDatabase(requireContext())
             heroesListViewModel.getHeroes()
         }
     }

@@ -6,22 +6,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.isabri.dragonballandroidavanzado.data.Repository
+import com.isabri.dragonballandroidavanzado.data.RepositoryImpl
 import com.isabri.dragonballandroidavanzado.domain.models.Hero
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class HeroesListViewModel: ViewModel() {
+@HiltViewModel
+class HeroesListViewModel @Inject constructor(private val repository: RepositoryImpl): ViewModel() {
 
-    private val repository = Repository()
     private val _heroes = MutableLiveData<List<Hero>>()
     val heroes: LiveData<List<Hero>>
         get() = _heroes
 
     companion object {
-        private val TAG = "HeroesListViewModel: "
+        private const val TAG = "HeroesListViewModel: "
     }
 
     fun getHeroes() {
@@ -34,7 +35,4 @@ class HeroesListViewModel: ViewModel() {
         }
     }
 
-    fun initDatabase(context: Context) {
-        repository.initDatabase(context)
-    }
 }

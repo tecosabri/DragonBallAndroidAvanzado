@@ -11,7 +11,9 @@ import android.view.Menu
 import android.view.MenuItem
 import com.isabri.dragonballandroidavanzado.R
 import com.isabri.dragonballandroidavanzado.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
