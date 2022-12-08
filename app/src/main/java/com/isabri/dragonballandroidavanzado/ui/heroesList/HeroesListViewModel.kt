@@ -1,12 +1,11 @@
 package com.isabri.dragonballandroidavanzado.ui.heroesList
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.isabri.dragonballandroidavanzado.data.RepositoryImpl
+import com.isabri.dragonballandroidavanzado.data.Repository
 import com.isabri.dragonballandroidavanzado.domain.models.Hero
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +14,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class HeroesListViewModel @Inject constructor(private val repository: RepositoryImpl): ViewModel() {
+class HeroesListViewModel @Inject constructor(private val repository: Repository): ViewModel() {
 
     private val _heroes = MutableLiveData<List<Hero>>()
     val heroes: LiveData<List<Hero>>

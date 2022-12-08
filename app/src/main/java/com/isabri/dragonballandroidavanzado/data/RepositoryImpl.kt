@@ -1,14 +1,14 @@
 package com.isabri.dragonballandroidavanzado.data
 
-import com.isabri.dragonballandroidavanzado.data.local.LocalDataSourceImpl
+import com.isabri.dragonballandroidavanzado.data.local.LocalDataSource
 import com.isabri.dragonballandroidavanzado.data.mappers.Mappers
-import com.isabri.dragonballandroidavanzado.data.remote.RemoteDataSourceImpl
+import com.isabri.dragonballandroidavanzado.data.remote.RemoteDataSource
 import com.isabri.dragonballandroidavanzado.domain.models.Hero
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
-    private val remoteDataSource: RemoteDataSourceImpl,
-    private val localDataSourceImpl: LocalDataSourceImpl,
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSourceImpl: LocalDataSource,
     private val mapper: Mappers
 ): Repository {
 
