@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import com.isabri.dragonballandroidavanzado.data.remote.DragonBallAPI
+import com.isabri.dragonballandroidavanzado.ui.login.LoginViewModel
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -20,8 +21,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 @Module
 @InstallIn(SingletonComponent::class)
 object RemoteModule {
-
-    private val token = "eyJraWQiOiJwcml2YXRlIiwiYWxnIjoiSFMyNTYiLCJ0eXAiOiJKV1QifQ.eyJleHBpcmF0aW9uIjo2NDA5MjIxMTIwMCwiZW1haWwiOiJoaXNtZTE0QGdtYWlsLmNvbSIsImlkZW50aWZ5IjoiQTczOTVGRTQtNkYwMy00MEJBLUE3RDctMDRFMUE5NUNEMEM5In0.Q3hnm0KSxhyKJBYXeG5k6p-8CF8gYy9MIJHvrD56XSg"
 
     @Provides
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
@@ -50,11 +49,15 @@ object RemoteModule {
                 val newRequest = originalRequest.newBuilder()
 //                .header("Authorization", "Bearer $TOKEN")
                     .header("Content-Type", "Application/Json")
+                    .header("Authorization", sharedPreferences.getString("CREDENTIAL", "")!!)
                     .build()
                 chain.proceed(newRequest)
             }
             .authenticator { _, response ->
-                response.request.newBuilder().header("Authorization", "Bearer ${sharedPreferences.getString("TOKEN", null)}").build()
+                    response.request.newBuilder().header(
+                        "Authorization",
+                        "Bearer ${sharedPreferences.getString("TOKEN", null)}"
+                    ).build()
             }
             .addInterceptor(httpLoggingInterceptor)
             .build()
@@ -65,7 +68,7 @@ object RemoteModule {
         return Retrofit.Builder()
             .baseUrl("https://dragonball.keepcoding.education/")
             .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(MoshiConverterFactory.create(moshi).asLenient())
             .build()
     }
 

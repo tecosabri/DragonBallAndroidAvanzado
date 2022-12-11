@@ -2,6 +2,7 @@ package com.isabri.dragonballandroidavanzado.data.remote
 
 import com.isabri.dragonballandroidavanzado.data.remote.model.HeroRemote
 import com.isabri.dragonballandroidavanzado.data.remote.request.HeroesRequest
+import com.isabri.dragonballandroidavanzado.data.remote.request.LoginRequest
 import com.isabri.dragonballandroidavanzado.domain.models.Hero
 import retrofit2.http.Body
 import retrofit2.http.Headers

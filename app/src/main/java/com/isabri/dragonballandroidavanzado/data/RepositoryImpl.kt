@@ -25,17 +25,17 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun getHeroesToCache(): List<Hero> {
         var localHeroes = localDataSourceImpl.getHeroes()
-        if(localHeroes.isEmpty()) {
+//        if(localHeroes.isEmpty()) {
             val remoteHeroes = remoteDataSource.getHeroes()
             localHeroes = mapper.mapRemoteToEntityHeroesList(remoteHeroes)
             localDataSourceImpl.insertHeroes(localHeroes)
-        }
+//        }
         return mapper.mapEntityToHeroesList(localDataSourceImpl.getHeroes())
     }
 
     override suspend fun getToken(): String {
         val token = remoteDataSource.getToken()
         sharedPreferences.edit().putString(TOKEN, token).apply()
-        return remoteDataSource.getToken()
+        return token
     }
 }

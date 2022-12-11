@@ -1,5 +1,7 @@
 package com.isabri.dragonballandroidavanzado.ui
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +13,9 @@ import android.view.Menu
 import android.view.MenuItem
 import com.isabri.dragonballandroidavanzado.R
 import com.isabri.dragonballandroidavanzado.databinding.ActivityMainBinding
+import com.isabri.dragonballandroidavanzado.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -32,8 +36,9 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            getSharedPreferences("NAME", MODE_PRIVATE).edit().clear().apply()
+            val intent = Intent(this@MainActivity, LoginActivity::class.java)
+            startActivity(intent)
         }
     }
 
