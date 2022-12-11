@@ -9,6 +9,9 @@ import retrofit2.http.POST
 
 interface DragonBallAPI {
 
+    @POST("api/auth/login")
+    suspend fun getToken(): String
+
     @POST("api/heros/all")
     suspend fun getHeroes(@Body heroesRequest: HeroesRequest): List<HeroRemote>
 }
