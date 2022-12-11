@@ -5,4 +5,5 @@ import com.isabri.dragonballandroidavanzado.domain.models.Hero
 interface Repository {
     suspend fun getHeroes(): List<Hero>
     suspend fun getHeroesToCache(): List<Hero>
+    suspend fun getToken(): String
 }

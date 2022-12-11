@@ -13,6 +13,10 @@ import javax.inject.Inject
 
 class RemoteDataSourceImpl @Inject constructor(private val api: DragonBallAPI): RemoteDataSource {
 
+    override suspend fun getToken(): String {
+        return api.getToken()
+    }
+
     override suspend fun getHeroes(): List<HeroRemote> {
         return api.getHeroes(HeroesRequest())
     }

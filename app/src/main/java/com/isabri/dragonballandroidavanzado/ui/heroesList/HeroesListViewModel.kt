@@ -33,5 +33,4 @@ class HeroesListViewModel @Inject constructor(private val repository: Repository
             Log.d(TAG, heroes.toString())
         }
     }
-
 }
