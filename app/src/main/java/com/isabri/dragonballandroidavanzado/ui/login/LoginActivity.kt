@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import com.isabri.dragonballandroidavanzado.R
 import com.isabri.dragonballandroidavanzado.databinding.ActivityLoginBinding
 import com.isabri.dragonballandroidavanzado.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        observeFetchingState()
+        observeLoadingState()
         setListeners()
     }
 
@@ -37,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeFetchingState() {
+    private fun observeLoadingState() {
         viewModel.loginState.observe(this) {
             when(it) {
                 is LoginState.Success -> {
@@ -48,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
                 is LoginState.Failure -> {
                     Log.d("MyLog", it.errorMessage)
                     binding.pbLogin.visibility = View.INVISIBLE
-                    Toast.makeText(this, "Error while login: wrong user or password", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Error while login: wrong user or password", Toast.LENGTH_SHORT).show()
                 }
                 is LoginState.Loading -> {
                     binding.pbLogin.visibility = View.VISIBLE

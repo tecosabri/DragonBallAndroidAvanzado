@@ -27,11 +27,12 @@ class LoginViewModel @Inject constructor(private val repository: Repository, pri
             val token = withContext(Dispatchers.IO) {
                 repository.getToken()
             }
-            _loginState.postValue(token)
+            setValueOnMainThread(token)
         }
     }
 
     fun login(user: String, password: String) {
+        setValueOnMainThread(LoginState.Loading)
         if(!userIsValid(user)) return
         if(!passwordIsValid(password)) return
         if(sharedPreferences.getString("TOKEN", null) == null) {
