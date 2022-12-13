@@ -10,7 +10,7 @@ import com.isabri.dragonballandroidavanzado.R
 import com.isabri.dragonballandroidavanzado.databinding.ItemListBinding
 import com.isabri.dragonballandroidavanzado.domain.models.Hero
 
-class HeroesListAdapter : ListAdapter<Hero, HeroesListAdapter.HeroViewHolder>(HeroDiffCallback()) {
+class HeroesListAdapter(private val clickListener: (Hero) -> (Unit)) : ListAdapter<Hero, HeroesListAdapter.HeroViewHolder>(HeroDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeroViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false)
@@ -23,10 +23,19 @@ class HeroesListAdapter : ListAdapter<Hero, HeroesListAdapter.HeroViewHolder>(He
     }
 
 
-    class HeroViewHolder(private val binding: ItemListBinding) :
+    inner class HeroViewHolder(private val binding: ItemListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        private lateinit var hero: Hero
+
+        init {
+            binding.root.setOnClickListener {
+                clickListener(hero)
+            }
+        }
+
         fun bind(hero: Hero) {
+            this.hero = hero
             with(binding) {
                 tvHeroName.text = hero.name
                 ivHeroImage.load(hero.photo)

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.isabri.dragonballandroidavanzado.databinding.FragmentHeroesListBinding
 import com.isabri.dragonballandroidavanzado.ui.commons.HeroesListAdapter
@@ -21,7 +22,10 @@ class HeroesListFragment : Fragment() {
     private var _binding: FragmentHeroesListBinding? = null
     private val binding get() = _binding!!
 
-    private val adapter = HeroesListAdapter()
+    private val adapter = HeroesListAdapter {
+        println("hey")
+        findNavController().navigate(HeroesListFragmentDirections.actionHeroListFragmentToHeroDetailFragment(it))
+    }
     private val heroesListViewModel: HeroesListViewModel by activityViewModels()
 
 
