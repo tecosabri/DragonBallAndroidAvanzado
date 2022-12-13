@@ -1,12 +1,12 @@
 package com.isabri.dragonballandroidavanzado.ui.login
 
 import android.content.SharedPreferences
-import android.util.Base64
-import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.isabri.dragonballandroidavanzado.data.Repository
+import com.isabri.dragonballandroidavanzado.ui.heroesList.HeroesListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,19 +18,22 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val repository: Repository, private val sharedPreferences: SharedPreferences): ViewModel() {
 
-    val stateLiveData: MutableLiveData<LoginState> by lazy { MutableLiveData<LoginState>() }
-
+    private val _loginState = MutableLiveData<LoginState>()
+    val loginState: LiveData<LoginState>
+        get() = _loginState
 
     private fun getToken() {
         viewModelScope.launch (Dispatchers.IO) {
             val token = withContext(Dispatchers.IO) {
                 repository.getToken()
             }
-            Log.d("TOKEN", token)
+            _loginState.postValue(token)
         }
     }
 
     fun login(user: String, password: String) {
+        if(!userIsValid(user)) return
+        if(!passwordIsValid(password)) return
         if(sharedPreferences.getString("TOKEN", null) == null) {
             sharedPreferences.edit().putString("CREDENTIAL", getCredentials(user, password)).apply()
             getToken()
@@ -38,19 +41,39 @@ class LoginViewModel @Inject constructor(private val repository: Repository, pri
         else setValueOnMainThread(LoginState.Success(sharedPreferences.getString("TOKEN", null)!!))
     }
 
+    private fun userIsValid(user: String): Boolean {
+        val regex = "^[A-Za-z0-9_\\-!#\$%&'*+/=?^`{|]+@[A-Za-z0-9\\-]+\\.[a-z]+\$".toRegex()
+        if(!regex.matches(user)) {
+            setValueOnMainThread(LoginState.InvalidUser("Invalid user $user"))
+            return false
+        }
+        return true
+    }
+
+    private fun passwordIsValid(password: String): Boolean {
+        val regex = "[0-9]{6}".toRegex()
+        if(!regex.matches(password)) {
+            setValueOnMainThread(LoginState.InvalidPassword("Invalid password"))
+            return false
+        }
+        return true
+    }
+
     private fun getCredentials(user: String, password: String): String {
         return Credentials.basic(user, password, StandardCharsets.UTF_8)
     }
 
-    sealed class LoginState {
-        data class Success(val token: String): LoginState()
-        data class Failure(val errorMessage: String): LoginState()
-        object Loading: LoginState()
-    }
-
     private fun setValueOnMainThread(value: LoginState) {
         viewModelScope.launch(Dispatchers.Main) {
-            stateLiveData.value = value
+            _loginState.value = value
         }
     }
+}
+
+sealed class LoginState {
+    data class Success(val token: String): LoginState()
+    data class Failure(val errorMessage: String): LoginState()
+    data class InvalidUser(val errorMessage: String): LoginState()
+    data class InvalidPassword(val errorMessage: String): LoginState()
+    object Loading: LoginState()
 }

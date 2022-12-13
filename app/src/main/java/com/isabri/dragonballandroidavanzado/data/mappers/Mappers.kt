@@ -18,4 +18,8 @@ class Mappers @Inject constructor() {
     fun mapEntityToHeroesList(heroEntityList: List<HeroEntity>): List<Hero> {
         return heroEntityList.map { Hero(it.id, it.name, it.photo, it.description, it.favorite) }
     }
+
+    fun mapHeroToEntityHeroesList(heroesList: List<Hero>): List<HeroEntity> {
+        return heroesList.map { HeroEntity(it.id, it.name, it.photo, it.description, it.favorite) }
+    }
 }

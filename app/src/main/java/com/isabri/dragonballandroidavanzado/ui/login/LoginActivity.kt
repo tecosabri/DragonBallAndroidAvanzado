@@ -38,20 +38,26 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun observeFetchingState() {
-        viewModel.stateLiveData.observe(this) {
+        viewModel.loginState.observe(this) {
             when(it) {
-                is LoginViewModel.LoginState.Success -> {
+                is LoginState.Success -> {
                     binding.pbLogin.visibility = View.INVISIBLE
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
                 }
-                is LoginViewModel.LoginState.Failure -> {
+                is LoginState.Failure -> {
                     Log.d("MyLog", it.errorMessage)
                     binding.pbLogin.visibility = View.INVISIBLE
-                    Toast.makeText(this, "Error while login: ${it.errorMessage}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Error while login: wrong user or password", Toast.LENGTH_LONG).show()
                 }
-                is LoginViewModel.LoginState.Loading -> {
+                is LoginState.Loading -> {
                     binding.pbLogin.visibility = View.VISIBLE
+                }
+                is LoginState.InvalidPassword -> {
+                    Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
+                }
+                is LoginState.InvalidUser -> {
+                    Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
                 }
             }
         }

@@ -1,11 +1,11 @@
 package com.isabri.dragonballandroidavanzado.data
 
 import android.content.SharedPreferences
-import android.security.KeyChain
 import com.isabri.dragonballandroidavanzado.data.local.LocalDataSource
 import com.isabri.dragonballandroidavanzado.data.mappers.Mappers
 import com.isabri.dragonballandroidavanzado.data.remote.RemoteDataSource
-import com.isabri.dragonballandroidavanzado.domain.models.Hero
+import com.isabri.dragonballandroidavanzado.ui.heroesList.HeroesListState
+import com.isabri.dragonballandroidavanzado.ui.login.LoginState
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
@@ -19,23 +19,35 @@ class RepositoryImpl @Inject constructor(
         val TOKEN = "TOKEN"
     }
 
-    override suspend fun getHeroes(): List<Hero> {
-        return mapper.mapRemoteToHeroesList(remoteDataSource.getHeroes())
+    override suspend fun getHeroes(): HeroesListState {
+        val heroesListState = remoteDataSource.getHeroes()
+        heroesListState
+            .onSuccess { return HeroesListState.Success(mapper.mapRemoteToHeroesList(heroesListState.getOrThrow())) }
+        return HeroesListState.Failure("Error fetching heroes") // On failure
     }
 
-    override suspend fun getHeroesToCache(): List<Hero> {
+    override suspend fun getHeroesToCache(): HeroesListState {
         var localHeroes = localDataSourceImpl.getHeroes()
-//        if(localHeroes.isEmpty()) {
-            val remoteHeroes = remoteDataSource.getHeroes()
-            localHeroes = mapper.mapRemoteToEntityHeroesList(remoteHeroes)
-            localDataSourceImpl.insertHeroes(localHeroes)
-//        }
-        return mapper.mapEntityToHeroesList(localDataSourceImpl.getHeroes())
+        val heroesListState = getHeroes()
+        if(localHeroes.isEmpty()) {
+            when (heroesListState) {
+                is HeroesListState.Failure -> return heroesListState
+                is HeroesListState.Success -> {
+                    localHeroes = mapper.mapHeroToEntityHeroesList(heroesListState.heroes)
+                    localDataSourceImpl.insertHeroes(localHeroes)
+                }
+            }
+        }
+        return heroesListState
     }
 
-    override suspend fun getToken(): String {
+    override suspend fun getToken(): LoginState {
         val token = remoteDataSource.getToken()
-        sharedPreferences.edit().putString(TOKEN, token).apply()
-        return token
+        token
+            .onSuccess {
+                sharedPreferences.edit().putString(TOKEN, token.getOrThrow()).apply()
+                return LoginState.Success(token.getOrThrow())
+            }
+        return LoginState.Failure("Error while retrieving the token")
     }
 }

@@ -1,9 +1,11 @@
 package com.isabri.dragonballandroidavanzado.data
 
-import com.isabri.dragonballandroidavanzado.domain.models.Hero
+import com.isabri.dragonballandroidavanzado.ui.heroesList.HeroesListState
+import com.isabri.dragonballandroidavanzado.ui.login.LoginState
+
 
 interface Repository {
-    suspend fun getHeroes(): List<Hero>
-    suspend fun getHeroesToCache(): List<Hero>
-    suspend fun getToken(): String
+    suspend fun getHeroes(): HeroesListState
+    suspend fun getHeroesToCache(): HeroesListState
+    suspend fun getToken(): LoginState
 }

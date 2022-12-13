@@ -16,9 +16,9 @@ import javax.inject.Inject
 @HiltViewModel
 class HeroesListViewModel @Inject constructor(private val repository: Repository): ViewModel() {
 
-    private val _heroes = MutableLiveData<List<Hero>>()
-    val heroes: LiveData<List<Hero>>
-        get() = _heroes
+    private val _state = MutableLiveData<HeroesListState>()
+    val state: LiveData<HeroesListState>
+        get() = _state
 
     companion object {
         private const val TAG = "HeroesListViewModel: "
@@ -29,8 +29,13 @@ class HeroesListViewModel @Inject constructor(private val repository: Repository
             val apiHeroes = withContext(Dispatchers.IO) {
                 repository.getHeroesToCache()
             }
-            _heroes.value = apiHeroes
-            Log.d(TAG, heroes.toString())
+            _state.postValue(apiHeroes)
         }
     }
+
+}
+
+sealed class HeroesListState {
+    data class Success(val heroes: List<Hero>): HeroesListState()
+    data class Failure(val error: String): HeroesListState()
 }
