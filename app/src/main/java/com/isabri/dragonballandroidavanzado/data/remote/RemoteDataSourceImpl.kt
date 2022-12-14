@@ -14,7 +14,7 @@ class RemoteDataSourceImpl @Inject constructor(private val api: DragonBallAPI): 
 
     override suspend fun getHeroes(heroName: String?): Result<List<HeroRemote>> {
         // Gets only one hero if the name is not null
-        heroName?.apply { api.getHeroes(HeroesRequest(heroName)) }
+        heroName?.apply { return kotlin.runCatching { api.getHeroes(HeroesRequest(heroName)) } }
         // Gets all heroes if no name -> name = null
         return runCatching { api.getHeroes(HeroesRequest()) }
     }

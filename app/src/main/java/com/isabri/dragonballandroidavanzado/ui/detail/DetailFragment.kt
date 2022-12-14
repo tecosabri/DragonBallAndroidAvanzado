@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.load
 import com.isabri.dragonballandroidavanzado.R
 import com.isabri.dragonballandroidavanzado.databinding.FragmentDetailBinding
 import com.isabri.dragonballandroidavanzado.ui.heroesList.HeroesListState
@@ -42,6 +43,7 @@ class DetailFragment : Fragment() {
                 is HeroesListState.Failure -> Toast.makeText(requireContext(), heroesListState.error, Toast.LENGTH_SHORT).show()
                 is HeroesListState.Success -> {
                     val hero = heroesListState.heroes.first()
+                    binding.heroPhoto.load(hero.photo)
                     binding.heroName.text = hero.name
                 }
             }
