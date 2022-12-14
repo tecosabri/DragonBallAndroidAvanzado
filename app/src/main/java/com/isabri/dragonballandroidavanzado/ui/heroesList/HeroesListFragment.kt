@@ -1,6 +1,7 @@
 package com.isabri.dragonballandroidavanzado.ui.heroesList
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,22 +22,18 @@ class HeroesListFragment : Fragment() {
 
     private var _binding: FragmentHeroesListBinding? = null
     private val binding get() = _binding!!
-
+    private val heroesListViewModel: HeroesListViewModel by activityViewModels()
     private val adapter = HeroesListAdapter {
-        println("hey")
+        Log.d("HeroesListFragment", "Navigating to ${it.name} detail")
         findNavController().navigate(HeroesListFragmentDirections.actionHeroListFragmentToHeroDetailFragment(it))
     }
-    private val heroesListViewModel: HeroesListViewModel by activityViewModels()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentHeroesListBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,13 +43,17 @@ class HeroesListFragment : Fragment() {
             heroesList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             heroesList.adapter = adapter
 
-            heroesListViewModel.state.observe(viewLifecycleOwner) { heroesListState ->
-                when (heroesListState) {
-                    is HeroesListState.Failure -> Toast.makeText(requireContext(), heroesListState.error, Toast.LENGTH_SHORT).show()
-                    is HeroesListState.Success -> adapter.submitList(heroesListState.heroes)
-                }
-            }
+            observeHeroesListState()
             heroesListViewModel.getHeroes()
+        }
+    }
+
+    private fun observeHeroesListState() {
+        heroesListViewModel.state.observe(viewLifecycleOwner) { heroesListState ->
+            when (heroesListState) {
+                is HeroesListState.Failure -> Toast.makeText(requireContext(), heroesListState.error, Toast.LENGTH_SHORT).show()
+                is HeroesListState.Success -> adapter.submitList(heroesListState.heroes)
+            }
         }
     }
 

@@ -19,8 +19,8 @@ class RepositoryImpl @Inject constructor(
         val TOKEN = "TOKEN"
     }
 
-    override suspend fun getHeroes(): HeroesListState {
-        val heroesListState = remoteDataSource.getHeroes()
+    override suspend fun getHeroes(heroName: String?): HeroesListState {
+        val heroesListState = remoteDataSource.getHeroes(heroName)
         heroesListState
             .onSuccess { return HeroesListState.Success(mapper.mapRemoteToHeroesList(heroesListState.getOrThrow())) }
         return HeroesListState.Failure("Error fetching heroes") // On failure

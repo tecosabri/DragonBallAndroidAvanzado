@@ -5,7 +5,7 @@ import com.isabri.dragonballandroidavanzado.ui.login.LoginState
 
 
 interface Repository {
-    suspend fun getHeroes(): HeroesListState
+    suspend fun getHeroes(heroName: String? = null): HeroesListState
     suspend fun getHeroesToCache(): HeroesListState
     suspend fun getToken(): LoginState
 }

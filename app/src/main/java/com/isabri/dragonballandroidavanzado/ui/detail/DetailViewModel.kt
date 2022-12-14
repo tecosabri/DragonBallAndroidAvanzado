@@ -1,13 +1,11 @@
-package com.isabri.dragonballandroidavanzado.ui.heroesList
+package com.isabri.dragonballandroidavanzado.ui.detail
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.isabri.dragonballandroidavanzado.data.Repository
-import com.isabri.dragonballandroidavanzado.domain.models.Hero
-import com.isabri.dragonballandroidavanzado.ui.login.LoginState
+import com.isabri.dragonballandroidavanzado.ui.heroesList.HeroesListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,18 +13,18 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class HeroesListViewModel @Inject constructor(private val repository: Repository): ViewModel() {
+class DetailViewModel @Inject constructor(private val repository: Repository): ViewModel() {
 
     private val _state = MutableLiveData<HeroesListState>()
     val state: LiveData<HeroesListState>
         get() = _state
 
-    fun getHeroes() {
+    fun getHeroes(heroName: String) {
         viewModelScope.launch {
-            val apiHeroes = withContext(Dispatchers.IO) {
-                repository.getHeroesToCache()
+            val heroListState = withContext(Dispatchers.IO) {
+                repository.getHeroes(heroName)
             }
-            setValueOnMainThread(apiHeroes)
+            setValueOnMainThread(heroListState)
         }
     }
 
@@ -35,9 +33,4 @@ class HeroesListViewModel @Inject constructor(private val repository: Repository
             _state.value = value
         }
     }
-}
-
-sealed class HeroesListState {
-    data class Success(val heroes: List<Hero>): HeroesListState()
-    data class Failure(val error: String): HeroesListState()
 }
