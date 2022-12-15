@@ -1,7 +1,9 @@
 package com.isabri.dragonballandroidavanzado.data.remote
 
 import com.isabri.dragonballandroidavanzado.data.remote.model.HeroRemote
+import com.isabri.dragonballandroidavanzado.data.remote.model.LocationRemote
 import com.isabri.dragonballandroidavanzado.data.remote.request.HeroesRequest
+import com.isabri.dragonballandroidavanzado.data.remote.request.LocationsRequest
 import com.isabri.dragonballandroidavanzado.data.remote.request.LoginRequest
 import com.isabri.dragonballandroidavanzado.domain.models.Hero
 import com.isabri.dragonballandroidavanzado.domain.models.Location
@@ -18,5 +20,5 @@ interface DragonBallAPI {
     suspend fun getHeroes(@Body heroesRequest: HeroesRequest): List<HeroRemote>
 
     @POST("api/heros/locations")
-    suspend fun getLocations(@Body heroId: String): List<Location>
+    suspend fun getLocations(@Body heroId: LocationsRequest): List<LocationRemote>
 }

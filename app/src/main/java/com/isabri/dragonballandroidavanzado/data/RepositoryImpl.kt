@@ -1,13 +1,12 @@
 package com.isabri.dragonballandroidavanzado.data
 
 import android.content.SharedPreferences
-import android.location.Location
 import com.isabri.dragonballandroidavanzado.data.local.LocalDataSource
 import com.isabri.dragonballandroidavanzado.data.mappers.Mappers
 import com.isabri.dragonballandroidavanzado.data.remote.RemoteDataSource
 import com.isabri.dragonballandroidavanzado.data.dataState.HeroesListState
-import com.isabri.dragonballandroidavanzado.data.dataState.LocationsState
 import com.isabri.dragonballandroidavanzado.data.dataState.LoginState
+import com.isabri.dragonballandroidavanzado.domain.models.Location
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
@@ -24,7 +23,10 @@ class RepositoryImpl @Inject constructor(
     override suspend fun getHeroes(heroName: String?): HeroesListState {
         val heroesListState = remoteDataSource.getHeroes(heroName)
         heroesListState
-            .onSuccess { return HeroesListState.Success(mapper.mapRemoteToHeroesList(heroesListState.getOrThrow())) }
+            .onSuccess {
+
+                return HeroesListState.Success(mapper.mapRemoteToHeroesList(heroesListState.getOrThrow()))
+            }
         return HeroesListState.Failure("Error fetching heroes") // On failure
     }
 
@@ -53,9 +55,9 @@ class RepositoryImpl @Inject constructor(
         return LoginState.Failure("Error while retrieving the token")
     }
 
-    override suspend fun getLocations(heroId: String): LocationsState {
+    override suspend fun getLocations(heroId: String): List<Location> {
         val locations = remoteDataSource.getLocations(heroId)
-        locations.onSuccess { return LocationsState.Success(locations.getOrThrow())}
-        return LocationsState.Failure("Error fetching locations for hero with ID $heroId")
+        locations.onSuccess { return mapper.mapLocationsRemoteToLocations(locations.getOrThrow())}
+        return emptyList() // On failure returns empty list
     }
 }

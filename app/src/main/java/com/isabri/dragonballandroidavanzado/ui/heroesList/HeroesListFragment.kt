@@ -15,9 +15,6 @@ import com.isabri.dragonballandroidavanzado.databinding.FragmentHeroesListBindin
 import com.isabri.dragonballandroidavanzado.ui.commons.HeroesListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 @AndroidEntryPoint
 class HeroesListFragment : Fragment() {
 

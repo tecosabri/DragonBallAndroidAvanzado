@@ -1,11 +1,13 @@
 package com.isabri.dragonballandroidavanzado.ui.detail
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -17,6 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.isabri.dragonballandroidavanzado.R
 import com.isabri.dragonballandroidavanzado.databinding.FragmentDetailBinding
 import com.isabri.dragonballandroidavanzado.data.dataState.HeroesListState
+import com.isabri.dragonballandroidavanzado.domain.models.Hero
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,6 +41,8 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
         return binding.root
     }
 
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         detailViewModel.getHeroes(args.hero.name)
@@ -45,13 +50,16 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
         setUpMap()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun observeHeroesListState() {
         detailViewModel.state.observe(viewLifecycleOwner) { heroesListState ->
             when(heroesListState) {
                 is HeroesListState.Failure -> Toast.makeText(requireContext(), heroesListState.error, Toast.LENGTH_SHORT).show()
                 is HeroesListState.Success -> {
                     val hero = heroesListState.heroes.first()
-                    binding.heroName.text = hero.name
+                    setHeroName(hero)
+                    setHeroLocations(hero)
+                    zoomToFirstPosition(hero)
                 }
             }
         }
@@ -69,11 +77,23 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(map: GoogleMap) {
         this.map = map
-        val sydney = LatLng(-34.0, 151.0)
-        map.addMarker(
-            MarkerOptions()
-            .position(sydney)
-            .title("Marker in Sydney"))
-        map.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    }
+
+    private fun setHeroName(hero: Hero) {
+        binding.heroName.text = hero.name
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setHeroLocations(hero: Hero) {
+        val heroLocations = hero.locations
+        heroLocations?.forEach { map.addMarker(detailViewModel.getMarker(it)) }
+    }
+
+    private fun zoomToFirstPosition(hero: Hero) {
+        val firstHeroLocation = hero.locations?.first()
+        firstHeroLocation?.apply {
+            val position = LatLng(firstHeroLocation.latitude.toDouble(), firstHeroLocation.longitude.toDouble())
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 6F))
+        }
     }
 }
