@@ -33,8 +33,10 @@ class LoginViewModel @Inject constructor(private val repository: Repository, pri
 
     fun login(user: String, password: String) {
         setValueOnMainThread(LoginState.Loading)
-        if(!userIsValid(user)) return
-        if(!passwordIsValid(password)) return
+        if(!userIsValid(user) || !passwordIsValid(password)) {
+            setValueOnMainThread(LoginState.Failure("Error while authenticating"))
+            return
+        }
         if(sharedPreferences.getString("TOKEN", null) == null) {
             sharedPreferences.edit().putString("CREDENTIAL", getCredentials(user, password)).apply()
             getToken()
