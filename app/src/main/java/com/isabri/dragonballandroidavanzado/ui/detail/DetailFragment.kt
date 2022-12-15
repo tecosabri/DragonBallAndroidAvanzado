@@ -16,7 +16,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.isabri.dragonballandroidavanzado.R
 import com.isabri.dragonballandroidavanzado.databinding.FragmentDetailBinding
-import com.isabri.dragonballandroidavanzado.ui.heroesList.HeroesListState
+import com.isabri.dragonballandroidavanzado.data.dataState.HeroesListState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

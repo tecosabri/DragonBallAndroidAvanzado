@@ -3,6 +3,7 @@ package com.isabri.dragonballandroidavanzado.data.remote
 import com.isabri.dragonballandroidavanzado.data.remote.model.HeroRemote
 import com.isabri.dragonballandroidavanzado.data.remote.request.HeroesRequest
 import com.isabri.dragonballandroidavanzado.domain.models.Hero
+import com.isabri.dragonballandroidavanzado.domain.models.Location
 import javax.inject.Inject
 
 
@@ -18,5 +19,10 @@ class RemoteDataSourceImpl @Inject constructor(private val api: DragonBallAPI): 
         // Gets all heroes if no name -> name = null
         return runCatching { api.getHeroes(HeroesRequest()) }
     }
+
+    override suspend fun getLocations(heroId: String): Result<List<Location>> {
+        return runCatching { api.getLocations(heroId) }
+    }
+
 }
 

@@ -1,11 +1,13 @@
 package com.isabri.dragonballandroidavanzado.data
 
 import android.content.SharedPreferences
+import android.location.Location
 import com.isabri.dragonballandroidavanzado.data.local.LocalDataSource
 import com.isabri.dragonballandroidavanzado.data.mappers.Mappers
 import com.isabri.dragonballandroidavanzado.data.remote.RemoteDataSource
-import com.isabri.dragonballandroidavanzado.ui.heroesList.HeroesListState
-import com.isabri.dragonballandroidavanzado.ui.login.LoginState
+import com.isabri.dragonballandroidavanzado.data.dataState.HeroesListState
+import com.isabri.dragonballandroidavanzado.data.dataState.LocationsState
+import com.isabri.dragonballandroidavanzado.data.dataState.LoginState
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
@@ -49,5 +51,11 @@ class RepositoryImpl @Inject constructor(
                 return LoginState.Success(token.getOrThrow())
             }
         return LoginState.Failure("Error while retrieving the token")
+    }
+
+    override suspend fun getLocations(heroId: String): LocationsState {
+        val locations = remoteDataSource.getLocations(heroId)
+        locations.onSuccess { return LocationsState.Success(locations.getOrThrow())}
+        return LocationsState.Failure("Error fetching locations for hero with ID $heroId")
     }
 }

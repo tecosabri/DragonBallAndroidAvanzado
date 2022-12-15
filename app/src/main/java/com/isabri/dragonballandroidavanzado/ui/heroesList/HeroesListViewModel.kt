@@ -1,13 +1,11 @@
 package com.isabri.dragonballandroidavanzado.ui.heroesList
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.isabri.dragonballandroidavanzado.data.Repository
-import com.isabri.dragonballandroidavanzado.domain.models.Hero
-import com.isabri.dragonballandroidavanzado.ui.login.LoginState
+import com.isabri.dragonballandroidavanzado.data.dataState.HeroesListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,7 +35,3 @@ class HeroesListViewModel @Inject constructor(private val repository: Repository
     }
 }
 
-sealed class HeroesListState {
-    data class Success(val heroes: List<Hero>): HeroesListState()
-    data class Failure(val error: String): HeroesListState()
-}

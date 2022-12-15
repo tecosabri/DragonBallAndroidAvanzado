@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.isabri.dragonballandroidavanzado.data.Repository
-import com.isabri.dragonballandroidavanzado.ui.heroesList.HeroesListState
+import com.isabri.dragonballandroidavanzado.data.dataState.LoginState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -71,10 +71,3 @@ class LoginViewModel @Inject constructor(private val repository: Repository, pri
     }
 }
 
-sealed class LoginState {
-    data class Success(val token: String): LoginState()
-    data class Failure(val errorMessage: String): LoginState()
-    data class InvalidUser(val errorMessage: String): LoginState()
-    data class InvalidPassword(val errorMessage: String): LoginState()
-    object Loading: LoginState()
-}

@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.isabri.dragonballandroidavanzado.data.dataState.HeroesListState
 import com.isabri.dragonballandroidavanzado.databinding.FragmentHeroesListBinding
 import com.isabri.dragonballandroidavanzado.ui.commons.HeroesListAdapter
 import dagger.hilt.android.AndroidEntryPoint

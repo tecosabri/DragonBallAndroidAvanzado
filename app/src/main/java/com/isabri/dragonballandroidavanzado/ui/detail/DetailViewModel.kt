@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.isabri.dragonballandroidavanzado.data.Repository
-import com.isabri.dragonballandroidavanzado.ui.heroesList.HeroesListState
+import com.isabri.dragonballandroidavanzado.data.dataState.HeroesListState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
