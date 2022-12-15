@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.isabri.dragonballandroidavanzado.data.Repository
 import com.isabri.dragonballandroidavanzado.data.dataState.HeroesListState
@@ -61,7 +62,15 @@ class DetailViewModel @Inject constructor(private val repository: Repository): V
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getMarker(location: Location): MarkerOptions {
+    fun getMarkers(hero: Hero): List<MarkerOptions> {
+        val heroLocations = hero.locations
+        val markers = mutableListOf<MarkerOptions>()
+        heroLocations?.forEach { markers.add(getMarker(it))}
+        return markers
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getMarker(location: Location): MarkerOptions {
         return MarkerOptions().position(getLatLng(location)).title(getTitle(location))
     }
     @RequiresApi(Build.VERSION_CODES.O)

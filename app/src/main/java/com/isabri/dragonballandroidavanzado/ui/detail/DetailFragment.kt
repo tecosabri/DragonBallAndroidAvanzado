@@ -85,8 +85,7 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setHeroLocations(hero: Hero) {
-        val heroLocations = hero.locations
-        heroLocations?.forEach { map.addMarker(detailViewModel.getMarker(it)) }
+        detailViewModel.getMarkers(hero).forEach { map.addMarker(it) }
     }
 
     private fun zoomToFirstPosition(hero: Hero) {
