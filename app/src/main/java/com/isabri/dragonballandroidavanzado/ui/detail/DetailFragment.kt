@@ -57,9 +57,10 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
                 is HeroesListState.Failure -> Toast.makeText(requireContext(), heroesListState.error, Toast.LENGTH_SHORT).show()
                 is HeroesListState.Success -> {
                     val hero = heroesListState.heroes.first()
-                    setHeroName(hero)
+                    setHeroInfo(hero)
                     setHeroLocations(hero)
                     zoomToFirstPosition(hero)
+                    setListeners()
                 }
             }
         }
@@ -79,8 +80,20 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
         this.map = map
     }
 
+    private fun setHeroInfo(hero: Hero) {
+        setHeroName(hero)
+        setHeroFavorite(hero)
+    }
+
     private fun setHeroName(hero: Hero) {
         binding.heroName.text = hero.name
+    }
+
+    private fun setHeroFavorite(hero: Hero) {
+        when (hero.favorite) {
+            true -> binding.isFavorite.setImageResource(R.drawable.ic_favorite)
+            false -> binding.isFavorite.setImageResource(R.drawable.ic_not_favorite)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -93,6 +106,14 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
         firstHeroLocation?.apply {
             val position = LatLng(firstHeroLocation.latitude.toDouble(), firstHeroLocation.longitude.toDouble())
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 6F))
+        }
+    }
+
+    private fun setListeners() {
+        with (binding) {
+            isFavorite.setOnClickListener {
+                detailViewModel.toggleFavorite()
+            }
         }
     }
 }

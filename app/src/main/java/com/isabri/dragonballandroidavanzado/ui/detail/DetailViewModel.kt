@@ -27,6 +27,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.annotation.meta.When
 import javax.inject.Inject
+import kotlin.reflect.jvm.internal.ReflectProperties.Val
 import kotlin.time.Duration.Companion.days
 
 @HiltViewModel
@@ -81,5 +82,12 @@ class DetailViewModel @Inject constructor(private val repository: Repository): V
     }
     private fun getLatLng(location: Location): LatLng {
         return LatLng(location.latitude.toDouble(), location.longitude.toDouble())
+    }
+
+    fun toggleFavorite() {
+        val value = state.value as HeroesListState.Success
+        val hero = value.heroes.first()
+        hero.favorite = !hero.favorite
+        setValueOnMainThread(value)
     }
 }

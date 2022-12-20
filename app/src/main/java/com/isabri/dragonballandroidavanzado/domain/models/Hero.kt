@@ -10,6 +10,6 @@ data class Hero(
     val name: String,
     val photo: String,
     val description: String,
-    val favorite: Boolean,
+    var favorite: Boolean,
     var locations: @RawValue List<Location>? = null
 ) : Parcelable

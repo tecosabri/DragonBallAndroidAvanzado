@@ -15,15 +15,17 @@
         <TextView
             android:id="@+id/hero_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:layout_weight="1"
             />
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/is_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:backgroundTint="@color/white"
             android:src="@drawable/ic_not_favorite"
             android:contentDescription="@string/is_hero_favorite" />
 
