@@ -88,6 +88,9 @@ class DetailViewModel @Inject constructor(private val repository: Repository): V
         val value = state.value as HeroesListState.Success
         val hero = value.heroes.first()
         hero.favorite = !hero.favorite
+        viewModelScope.launch {
+            repository.toggleFavorite(hero.id)
+        }
         setValueOnMainThread(value)
     }
 }

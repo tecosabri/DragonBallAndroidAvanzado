@@ -2,8 +2,9 @@ package com.isabri.dragonballandroidavanzado.data.remote
 
 import com.isabri.dragonballandroidavanzado.data.remote.model.HeroRemote
 import com.isabri.dragonballandroidavanzado.data.remote.model.LocationRemote
+import com.isabri.dragonballandroidavanzado.data.remote.request.HeroIdRequest
 import com.isabri.dragonballandroidavanzado.data.remote.request.HeroesRequest
-import com.isabri.dragonballandroidavanzado.data.remote.request.LocationsRequest
+import com.isabri.dragonballandroidavanzado.data.remote.request.IdRequest
 import javax.inject.Inject
 
 
@@ -21,8 +22,13 @@ class RemoteDataSourceImpl @Inject constructor(private val api: DragonBallAPI): 
     }
 
     override suspend fun getLocations(heroId: String): Result<List<LocationRemote>> {
-        return runCatching { api.getLocations(LocationsRequest(heroId)) }
+        return runCatching { api.getLocations(IdRequest(heroId)) }
     }
+
+    override suspend fun toggleFavorite(heroId: String) {
+        api.toggleFavorite(HeroIdRequest(heroId))
+    }
+
 
 }
 

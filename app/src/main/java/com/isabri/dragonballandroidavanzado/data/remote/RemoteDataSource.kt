@@ -7,4 +7,5 @@ interface RemoteDataSource {
     suspend fun getToken(): Result<String>
     suspend fun getHeroes(heroName: String? = null): Result<List<HeroRemote>>
     suspend fun getLocations(heroId: String): Result<List<LocationRemote>>
+    suspend fun toggleFavorite(heroId: String)
 }
