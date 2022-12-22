@@ -1,7 +1,6 @@
 package com.isabri.dragonballandroidavanzado.ui.heroesList
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.isabri.dragonballandroidavanzado.data.dataState.HeroesListState
 import com.isabri.dragonballandroidavanzado.databinding.FragmentHeroesListBinding
-import com.isabri.dragonballandroidavanzado.ui.MainActivity
+import com.isabri.dragonballandroidavanzado.ui.HeroesListActivity
 import com.isabri.dragonballandroidavanzado.ui.commons.HeroesListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,7 +35,7 @@ class HeroesListFragment : Fragment() {
     }
 
     private fun setTitle() {
-        (activity as MainActivity).setToolBarTitle("Dragon Ball Heroes!")
+        (activity as HeroesListActivity).setToolBarTitle("Dragon Ball Heroes!")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import com.isabri.dragonballandroidavanzado.data.dataState.LoginState
 import com.isabri.dragonballandroidavanzado.databinding.ActivityLoginBinding
-import com.isabri.dragonballandroidavanzado.ui.MainActivity
+import com.isabri.dragonballandroidavanzado.ui.HeroesListActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
             when(it) {
                 is LoginState.Success -> {
                     binding.pbLogin.visibility = View.INVISIBLE
-                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    val intent = Intent(this@LoginActivity, HeroesListActivity::class.java)
                     startActivity(intent)
                 }
                 is LoginState.Failure -> {

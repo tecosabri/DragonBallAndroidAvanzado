@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -16,12 +15,11 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.isabri.dragonballandroidavanzado.R
 import com.isabri.dragonballandroidavanzado.databinding.FragmentDetailBinding
 import com.isabri.dragonballandroidavanzado.data.dataState.HeroesListState
 import com.isabri.dragonballandroidavanzado.domain.models.Hero
-import com.isabri.dragonballandroidavanzado.ui.MainActivity
+import com.isabri.dragonballandroidavanzado.ui.HeroesListActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,11 +45,11 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setTitle() {
-        (activity as MainActivity).setToolBarTitle(args.hero.name)
+        (activity as HeroesListActivity).setToolBarTitle(args.hero.name)
     }
 
     private fun toggleLikeButton() {
-        (activity as MainActivity).toggleLikeButtonVisibility()
+        (activity as HeroesListActivity).toggleLikeButtonVisibility()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -65,7 +63,7 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
 
     override fun onDestroy() {
         super.onDestroy()
-        (activity as MainActivity).supportActionBar?.title = "Dragon Bal Heroes!"
+        (activity as HeroesListActivity).supportActionBar?.title = "Dragon Bal Heroes!"
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -97,7 +95,7 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setHeroesListTitle() {
-        (activity as MainActivity).setToolBarTitle("Dragon Ball Heroes!")
+        (activity as HeroesListActivity).setToolBarTitle("Dragon Ball Heroes!")
     }
 
     override fun onMapReady(map: GoogleMap) {

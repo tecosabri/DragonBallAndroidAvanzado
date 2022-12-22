@@ -30,7 +30,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.HeroesListActivity"
             android:exported="true"
             android:theme="@style/Theme.DragonBallAndroidAvanzado.NoActionBar">
 
