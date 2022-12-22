@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.isabri.dragonballandroidavanzado.data.Repository
 import com.isabri.dragonballandroidavanzado.data.dataState.HeroesListState
+import com.isabri.dragonballandroidavanzado.domain.models.Hero
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,6 +27,14 @@ class HeroesListViewModel @Inject constructor(private val repository: Repository
             }
             setValueOnMainThread(apiHeroes)
         }
+    }
+
+    fun filterLikedHeroes(): HeroesListState.Success {
+        val value = state.value as HeroesListState.Success
+        val heroes = value.heroes
+        val newState = HeroesListState.Success(heroes.filter { it.favorite })
+        setValueOnMainThread(newState)
+        return newState
     }
 
     private fun setValueOnMainThread(value: HeroesListState) {

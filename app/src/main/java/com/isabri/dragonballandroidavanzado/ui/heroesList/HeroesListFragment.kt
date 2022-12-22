@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.isabri.dragonballandroidavanzado.data.dataState.HeroesListState
 import com.isabri.dragonballandroidavanzado.databinding.FragmentHeroesListBinding
+import com.isabri.dragonballandroidavanzado.ui.MainActivity
 import com.isabri.dragonballandroidavanzado.ui.commons.HeroesListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +23,6 @@ class HeroesListFragment : Fragment() {
     private val binding get() = _binding!!
     private val heroesListViewModel: HeroesListViewModel by activityViewModels()
     private val adapter = HeroesListAdapter {
-        Log.d("HeroesListFragment", "Navigating to ${it.name} detail")
         findNavController().navigate(HeroesListFragmentDirections.actionHeroListFragmentToHeroDetailFragment(it))
     }
 
@@ -31,7 +31,12 @@ class HeroesListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHeroesListBinding.inflate(inflater, container, false)
+        setTitle()
         return binding.root
+    }
+
+    private fun setTitle() {
+        (activity as MainActivity).setToolBarTitle("Dragon Ball Heroes!")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,7 +45,6 @@ class HeroesListFragment : Fragment() {
         with(binding) {
             heroesList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             heroesList.adapter = adapter
-
             observeHeroesListState()
             heroesListViewModel.getHeroes()
         }

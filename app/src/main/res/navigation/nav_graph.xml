@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/HeroListFragment"
         android:name="com.isabri.dragonballandroidavanzado.ui.heroesList.HeroesListFragment"
-        android:label="@string/first_fragment_label"
+
         tools:layout="@layout/fragment_heroes_list">
 
         <action
@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/DetailFragment"
         android:name="com.isabri.dragonballandroidavanzado.ui.detail.DetailFragment"
-        android:label="@string/second_fragment_label"
+
         tools:layout="@layout/fragment_detail">
 
         <argument android:name="hero" app:nullable="false" app:argType="com.isabri.dragonballandroidavanzado.domain.models.Hero"/>
