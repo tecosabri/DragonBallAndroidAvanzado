@@ -14,7 +14,7 @@ import com.isabri.dragonballandroidavanzado.ui.heroesList.HeroesListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HeroesListActivity : AppCompatActivity() {
+class HeroesListActivity : AppCompatActivity(), ToolBarActivityWithLikeButton {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityHeroesListBinding
@@ -69,16 +69,19 @@ class HeroesListActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
-    fun setToolBarTitle(title: String) {
+    override fun setToolBarTitle(title: String) {
         supportActionBar?.title = title
     }
 
-    fun toggleLikeButtonVisibility() {
+    override fun toggleLikeButtonVisibility() {
         when (binding.button.visibility) {
             View.VISIBLE -> binding.button.visibility = View.INVISIBLE
             else -> binding.button.visibility = View.VISIBLE
         }
     }
+}
 
-
+interface ToolBarActivityWithLikeButton {
+    fun setToolBarTitle(title: String);
+    fun toggleLikeButtonVisibility();
 }

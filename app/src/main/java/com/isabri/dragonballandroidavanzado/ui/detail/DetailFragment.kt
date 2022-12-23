@@ -1,5 +1,6 @@
 package com.isabri.dragonballandroidavanzado.ui.detail
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -19,7 +20,9 @@ import com.isabri.dragonballandroidavanzado.R
 import com.isabri.dragonballandroidavanzado.databinding.FragmentDetailBinding
 import com.isabri.dragonballandroidavanzado.data.dataState.HeroesListState
 import com.isabri.dragonballandroidavanzado.domain.models.Hero
+import com.isabri.dragonballandroidavanzado.domain.models.Location
 import com.isabri.dragonballandroidavanzado.ui.HeroesListActivity
+import com.isabri.dragonballandroidavanzado.ui.ToolBarActivityWithLikeButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,24 +35,18 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
 
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as? ToolBarActivityWithLikeButton)?.setToolBarTitle(args.hero.name)
+        (activity as? ToolBarActivityWithLikeButton)?.toggleLikeButtonVisibility()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
-        toggleLikeButton()
-        setTitle()
-
         return binding.root
-    }
-
-    private fun setTitle() {
-        (activity as HeroesListActivity).setToolBarTitle(args.hero.name)
-    }
-
-    private fun toggleLikeButton() {
-        (activity as HeroesListActivity).toggleLikeButtonVisibility()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -59,11 +56,6 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
         detailViewModel.getHeroes(args.hero.name)
         observeHeroesListState()
         setUpMap()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        (activity as HeroesListActivity).supportActionBar?.title = "Dragon Bal Heroes!"
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -89,13 +81,9 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        setHeroesListTitle()
-        toggleLikeButton()
+        (activity as? ToolBarActivityWithLikeButton)?.setToolBarTitle("Dragon Ball Heroes!")
+        (activity as? ToolBarActivityWithLikeButton)?.toggleLikeButtonVisibility()
         _binding = null
-    }
-
-    private fun setHeroesListTitle() {
-        (activity as HeroesListActivity).setToolBarTitle("Dragon Ball Heroes!")
     }
 
     override fun onMapReady(map: GoogleMap) {
@@ -124,7 +112,8 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun zoomToFirstPosition(hero: Hero) {
-        val firstHeroLocation = hero.locations?.first()
+        var firstHeroLocation: Location? = null
+        if(hero.locations?.isNotEmpty() == true) firstHeroLocation = hero.locations?.first()
         firstHeroLocation?.apply {
             val position = LatLng(firstHeroLocation.latitude.toDouble(), firstHeroLocation.longitude.toDouble())
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 6F))
