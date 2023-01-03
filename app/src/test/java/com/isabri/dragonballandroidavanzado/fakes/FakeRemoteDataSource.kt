@@ -4,8 +4,9 @@ import com.isabri.dragonballandroidavanzado.defaultData.Default
 import com.isabri.dragonballandroidavanzado.data.remote.RemoteDataSource
 import com.isabri.dragonballandroidavanzado.data.remote.model.HeroRemote
 import com.isabri.dragonballandroidavanzado.data.remote.model.LocationRemote
+import com.isabri.dragonballandroidavanzado.domain.models.Hero
 
-class FakeRemoteDataSource: RemoteDataSource {
+class FakeRemoteDataSource(val hero: Hero): RemoteDataSource {
     override suspend fun getToken(): Result<String> {
         TODO("Not yet implemented")
     }
@@ -23,6 +24,6 @@ class FakeRemoteDataSource: RemoteDataSource {
     }
 
     override suspend fun toggleFavorite(heroId: String) {
-        TODO("Not yet implemented")
+        hero.favorite = !hero.favorite
     }
 }

@@ -3,6 +3,8 @@ package com.isabri.dragonballandroidavanzado.data.remote
 import com.google.common.truth.Truth
 import com.isabri.dragonballandroidavanzado.base.BaseNetworkTest
 import com.isabri.dragonballandroidavanzado.defaultData.Default
+import com.isabri.dragonballandroidavanzado.domain.models.Hero
+import com.isabri.dragonballandroidavanzado.fakes.FakeRemoteDataSource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -13,7 +15,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class RemoteDataSourceImplTest: BaseNetworkTest(){
 
-    private lateinit var remoteDataSourceImpl: RemoteDataSourceImpl
+    private lateinit var remoteDataSourceImpl: RemoteDataSource
 
     @Before
     fun setUp() {
@@ -80,4 +82,17 @@ class RemoteDataSourceImplTest: BaseNetworkTest(){
             Truth.assertThat(roshiLocations.dateShow).isEqualTo("2022-02-20T00:00:00Z")
         }
     }
+
+    @Test
+    fun `WHEN toggleFavorite with any string EXPECT success and togglesHero`() = runTest {
+        // GIVEN
+        val hero = Hero("id", "name", "photo", "description", true)
+        remoteDataSourceImpl = FakeRemoteDataSource(hero)
+        // WHEN
+        remoteDataSourceImpl.toggleFavorite("FAVORITE")
+
+        // THEN
+        assertFalse(hero.favorite)
+    }
+
 }

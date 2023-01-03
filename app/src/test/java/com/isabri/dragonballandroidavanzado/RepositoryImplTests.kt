@@ -12,6 +12,7 @@ import com.isabri.dragonballandroidavanzado.data.local.LocalDataSource
 import com.isabri.dragonballandroidavanzado.data.mappers.Mappers
 import com.isabri.dragonballandroidavanzado.data.remote.RemoteDataSource
 import com.isabri.dragonballandroidavanzado.defaultData.Default
+import com.isabri.dragonballandroidavanzado.domain.models.Hero
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -33,7 +34,7 @@ class RepositoryImplTests {
 
     @Before
     fun setUp() {
-        fakeRemoteDataSource = FakeRemoteDataSource()
+        fakeRemoteDataSource = FakeRemoteDataSource(Hero("id", "name", "photo", "description", true))
         localDataSource = mockk()
         sharedPreferences = ApplicationProvider.getApplicationContext<Context>()
             .getSharedPreferences(Default.getSharedPreferencesName(), Context.MODE_PRIVATE)
