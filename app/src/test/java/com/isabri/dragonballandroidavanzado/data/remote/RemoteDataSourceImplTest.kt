@@ -87,7 +87,7 @@ class RemoteDataSourceImplTest: BaseNetworkTest(){
     fun `WHEN toggleFavorite with any string EXPECT success and togglesHero`() = runTest {
         // GIVEN
         val hero = Hero("id", "name", "photo", "description", true)
-        remoteDataSourceImpl = FakeRemoteDataSource(hero)
+        remoteDataSourceImpl = FakeRemoteDataSource(api, hero)
         // WHEN
         remoteDataSourceImpl.toggleFavorite("FAVORITE")
 

@@ -1,12 +1,15 @@
 package com.isabri.dragonballandroidavanzado.fakes
 
+import com.isabri.dragonballandroidavanzado.data.remote.DragonBallAPI
 import com.isabri.dragonballandroidavanzado.defaultData.Default
 import com.isabri.dragonballandroidavanzado.data.remote.RemoteDataSource
 import com.isabri.dragonballandroidavanzado.data.remote.model.HeroRemote
 import com.isabri.dragonballandroidavanzado.data.remote.model.LocationRemote
+import com.isabri.dragonballandroidavanzado.data.remote.request.HeroIdRequest
 import com.isabri.dragonballandroidavanzado.domain.models.Hero
 
-class FakeRemoteDataSource(val hero: Hero): RemoteDataSource {
+class FakeRemoteDataSource(private val api: DragonBallAPI? = null, val hero: Hero): RemoteDataSource {
+
     override suspend fun getToken(): Result<String> {
         TODO("Not yet implemented")
     }
@@ -24,6 +27,7 @@ class FakeRemoteDataSource(val hero: Hero): RemoteDataSource {
     }
 
     override suspend fun toggleFavorite(heroId: String) {
+        api?.toggleFavorite(HeroIdRequest(hero.id))
         hero.favorite = !hero.favorite
     }
 }

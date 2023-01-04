@@ -1,11 +1,9 @@
-package com.isabri.dragonballandroidavanzado
+package com.isabri.dragonballandroidavanzado.data
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.test.core.app.ApplicationProvider
 import com.google.common.truth.Truth
-import com.isabri.dragonballandroidavanzado.data.Repository
-import com.isabri.dragonballandroidavanzado.data.RepositoryImpl
 import com.isabri.dragonballandroidavanzado.data.dataState.HeroesListState
 import com.isabri.dragonballandroidavanzado.fakes.FakeRemoteDataSource
 import com.isabri.dragonballandroidavanzado.data.local.LocalDataSource
@@ -34,7 +32,7 @@ class RepositoryImplTests {
 
     @Before
     fun setUp() {
-        fakeRemoteDataSource = FakeRemoteDataSource(Hero("id", "name", "photo", "description", true))
+        fakeRemoteDataSource = FakeRemoteDataSource(null, Hero("id", "name", "photo", "description", true))
         localDataSource = mockk()
         sharedPreferences = ApplicationProvider.getApplicationContext<Context>()
             .getSharedPreferences(Default.getSharedPreferencesName(), Context.MODE_PRIVATE)

@@ -70,6 +70,8 @@ dependencies {
     // Room
     implementation("androidx.room:room-runtime:2.4.3")
     implementation("androidx.room:room-ktx:2.4.3")
+    implementation 'androidx.test.ext:junit-ktx:1.1.5'
+    implementation 'androidx.test:runner:1.5.2'
     kapt("androidx.room:room-compiler:2.4.3")
 
     // Dependency injection (dagger hilt)
@@ -82,8 +84,8 @@ dependencies {
     // Tests
     testImplementation 'junit:junit:4.13.2'
     testImplementation "org.robolectric:robolectric:4.9.2"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     testImplementation 'junit:junit:4.13.2'
     testImplementation("io.mockk:mockk:1.12.2")
     testImplementation("androidx.arch.core:core-testing:2.1.0")
