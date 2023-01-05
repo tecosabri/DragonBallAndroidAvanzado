@@ -42,3 +42,15 @@ fun generateHeros(): List<Hero> {
     }
 }
 
+fun generateHero(): List<Hero> {
+    return (0 until 1).map {
+        Hero(
+            "ID: $it",
+            "Name $it",
+            "Photo $it",
+            "Description $it",
+            false
+        )
+    }
+}
+
