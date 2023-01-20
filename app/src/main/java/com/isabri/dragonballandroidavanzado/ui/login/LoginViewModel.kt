@@ -33,7 +33,7 @@ class LoginViewModel @Inject constructor(private val repository: Repository, pri
 
     fun login(user: String, password: String) {
         setValueOnMainThread(LoginState.Loading)
-        if(!userIsValid(user) || !passwordIsValid(password)) {
+        if(!userIsValid(user)) {
             setValueOnMainThread(LoginState.Failure("Error while authenticating"))
             return
         }
@@ -45,18 +45,9 @@ class LoginViewModel @Inject constructor(private val repository: Repository, pri
     }
 
     private fun userIsValid(user: String): Boolean {
-        val regex = "^[A-Za-z0-9_\\-!#\$%&'*+/=?^`{|]+@[A-Za-z0-9\\-]+\\.[a-z]+\$".toRegex()
+        val regex = "^[A-Za-z0-9_\\-!#\$%&'*+/=?^`{|.]+@[A-Za-z0-9\\-]+\\.[a-z]+\$".toRegex()
         if(!regex.matches(user)) {
             setValueOnMainThread(LoginState.InvalidUser("Invalid user $user"))
-            return false
-        }
-        return true
-    }
-
-    private fun passwordIsValid(password: String): Boolean {
-        val regex = "[0-9]{6}".toRegex()
-        if(!regex.matches(password)) {
-            setValueOnMainThread(LoginState.InvalidPassword("Invalid password"))
             return false
         }
         return true
