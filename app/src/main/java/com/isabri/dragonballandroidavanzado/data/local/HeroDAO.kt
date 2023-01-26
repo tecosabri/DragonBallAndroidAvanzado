@@ -10,7 +10,6 @@ import com.isabri.dragonballandroidavanzado.data.local.model.HeroEntity
 
 @Dao
 interface HeroDAO {
-    @NonNull
     @WorkerThread
     @Query("SELECT * FROM heroEntities")
     fun getAllHeroes(): List<HeroEntity>

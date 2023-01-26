@@ -26,7 +26,6 @@ class RepositoryImpl @Inject constructor(
         val heroesListState = remoteDataSource.getHeroes(heroName)
         heroesListState
             .onSuccess {
-
                 return HeroesListState.Success(mapper.mapRemoteToHeroesList(heroesListState.getOrThrow()))
             }
         return HeroesListState.Failure("Error fetching heroes") // On failure
@@ -34,17 +33,18 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun getHeroesToCache(): HeroesListState {
         var localHeroes = localDataSourceImpl.getHeroes()
-        val heroesListState = getHeroes()
         if(localHeroes.isEmpty()) {
+            val heroesListState = getHeroes()
             when (heroesListState) {
                 is HeroesListState.Failure -> return heroesListState
                 is HeroesListState.Success -> {
                     localHeroes = mapper.mapHeroToEntityHeroesList(heroesListState.heroes)
                     localDataSourceImpl.insertHeroes(localHeroes)
+                    return heroesListState
                 }
             }
         }
-        return heroesListState
+        return HeroesListState.Success(mapper.mapEntityToHeroesList(localHeroes))
     }
 
     override suspend fun getToken(): LoginState {
