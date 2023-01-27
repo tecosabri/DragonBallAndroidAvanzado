@@ -34,7 +34,6 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
     private val args: DetailFragmentArgs by navArgs()
     private lateinit var map: GoogleMap
 
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (activity as? ToolBarActivityWithLikeButton)?.setToolBarTitle(args.hero.name)

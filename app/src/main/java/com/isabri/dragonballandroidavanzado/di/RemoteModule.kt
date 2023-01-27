@@ -1,16 +1,13 @@
 package com.isabri.dragonballandroidavanzado.di
 
-import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import com.isabri.dragonballandroidavanzado.data.remote.DragonBallAPI
-import com.isabri.dragonballandroidavanzado.ui.login.LoginViewModel
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient

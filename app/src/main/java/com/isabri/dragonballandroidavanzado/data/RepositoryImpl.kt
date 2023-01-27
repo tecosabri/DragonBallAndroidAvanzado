@@ -6,9 +6,8 @@ import com.isabri.dragonballandroidavanzado.data.mappers.Mappers
 import com.isabri.dragonballandroidavanzado.data.remote.RemoteDataSource
 import com.isabri.dragonballandroidavanzado.data.dataState.HeroesListState
 import com.isabri.dragonballandroidavanzado.data.dataState.LoginState
-import com.isabri.dragonballandroidavanzado.data.remote.request.HeroesRequest
+import com.isabri.dragonballandroidavanzado.domain.models.Hero
 import com.isabri.dragonballandroidavanzado.domain.models.Location
-import retrofit2.http.HEAD
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
@@ -63,7 +62,12 @@ class RepositoryImpl @Inject constructor(
         return emptyList() // On failure returns empty list
     }
 
-    override suspend fun toggleFavorite(heroId: String) {
+    override suspend fun toggleFavoriteRemote(heroId: String) {
         remoteDataSource.toggleFavorite(heroId)
+    }
+
+    override fun updateHero(hero: Hero) {
+        val heroEntity = mapper.mapHeroToHeroEntity(hero)
+        localDataSourceImpl.updateHero(heroEntity)
     }
 }

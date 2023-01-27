@@ -7,7 +7,6 @@ import com.isabri.dragonballandroidavanzado.data.remote.request.HeroesRequest
 import com.isabri.dragonballandroidavanzado.data.remote.request.IdRequest
 import javax.inject.Inject
 
-
 class RemoteDataSourceImpl @Inject constructor(private val api: DragonBallAPI): RemoteDataSource {
 
     override suspend fun getToken(): Result<String> {
@@ -28,7 +27,5 @@ class RemoteDataSourceImpl @Inject constructor(private val api: DragonBallAPI): 
     override suspend fun toggleFavorite(heroId: String) {
         api.toggleFavorite(HeroIdRequest(heroId))
     }
-
-
 }
 

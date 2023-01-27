@@ -62,5 +62,4 @@ class HeroesListFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

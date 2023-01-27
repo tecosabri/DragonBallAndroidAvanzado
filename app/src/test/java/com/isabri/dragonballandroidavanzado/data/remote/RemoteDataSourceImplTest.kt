@@ -94,5 +94,4 @@ class RemoteDataSourceImplTest: BaseNetworkTest(){
         // THEN
         assertFalse(hero.favorite)
     }
-
 }

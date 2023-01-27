@@ -8,27 +8,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.isabri.dragonballandroidavanzado.data.Repository
 import com.isabri.dragonballandroidavanzado.data.dataState.HeroesListState
-import com.isabri.dragonballandroidavanzado.data.dataState.LocationsState
 import com.isabri.dragonballandroidavanzado.domain.models.Hero
 import com.isabri.dragonballandroidavanzado.domain.models.Location
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.Month
 import java.time.format.DateTimeFormatter
 import java.util.*
-import javax.annotation.meta.When
 import javax.inject.Inject
-import kotlin.reflect.jvm.internal.ReflectProperties.Val
-import kotlin.time.Duration.Companion.days
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(private val repository: Repository): ViewModel() {
@@ -74,12 +67,14 @@ class DetailViewModel @Inject constructor(private val repository: Repository): V
     private fun getMarker(location: Location): MarkerOptions {
         return MarkerOptions().position(getLatLng(location)).title(getTitle(location))
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getTitle(location: Location): String {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
         val date = LocalDate.parse(location.dateShow, formatter)
         return "Seen the ${date.dayOfMonth} of ${Month.values()[date.monthValue].toString().lowercase(Locale.getDefault())}"
     }
+
     private fun getLatLng(location: Location): LatLng {
         return LatLng(location.latitude.toDouble(), location.longitude.toDouble())
     }
@@ -88,8 +83,9 @@ class DetailViewModel @Inject constructor(private val repository: Repository): V
         val value = state.value as HeroesListState.Success
         val hero = value.heroes.first()
         hero.favorite = !hero.favorite
-        viewModelScope.launch {
-            repository.toggleFavorite(hero.id)
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.toggleFavoriteRemote(hero.id)
+            repository.updateHero(hero)
         }
         setValueOnMainThread(value)
     }

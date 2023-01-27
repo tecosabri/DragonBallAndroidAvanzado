@@ -13,16 +13,16 @@ class Mappers @Inject constructor() {
         return heroRemoteList.map { Hero(it.id, it.name, it.photo, it.description, it.favorite) }
     }
 
-    fun mapRemoteToEntityHeroesList(heroRemoteList: List<HeroRemote>): List<HeroEntity> {
-        return heroRemoteList.map { HeroEntity(it.id, it.name, it.photo, it.description, it.favorite) }
-    }
-
     fun mapEntityToHeroesList(heroEntityList: List<HeroEntity>): List<Hero> {
         return heroEntityList.map { Hero(it.id, it.name, it.photo, it.description, it.favorite) }
     }
 
     fun mapHeroToEntityHeroesList(heroesList: List<Hero>): List<HeroEntity> {
         return heroesList.map { HeroEntity(it.id, it.name, it.photo, it.description, it.favorite) }
+    }
+
+    fun mapHeroToHeroEntity(hero: Hero): HeroEntity {
+        return HeroEntity(hero.id, hero.name, hero.photo, hero.description, hero.favorite)
     }
 
     fun mapLocationsRemoteToLocations(locationsRemote: List<LocationRemote>): List<Location> {

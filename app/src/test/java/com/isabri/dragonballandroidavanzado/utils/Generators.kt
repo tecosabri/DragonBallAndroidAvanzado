@@ -29,7 +29,6 @@ fun generateHerosLocal(): List<HeroEntity> {
     }
 }
 
-
 fun generateHeros(): List<Hero> {
     return (0 until 10).map {
         Hero(

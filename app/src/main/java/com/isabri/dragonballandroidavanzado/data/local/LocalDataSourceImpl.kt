@@ -12,4 +12,8 @@ class LocalDataSourceImpl @Inject constructor(private val dao: HeroDAO): LocalDa
     override fun insertHeroes(entityHeroes: List<HeroEntity>) {
         dao.insertAll(entityHeroes)
     }
+
+    override fun updateHero(hero: HeroEntity) {
+        dao.updateHero(hero)
+    }
 }
